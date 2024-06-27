@@ -1,10 +1,15 @@
-# Getting Started with Create React App
+# Layla Partner App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm run deploy`
+
+This command will build the project and deploy it to the gh-pages branch of the repository.\
+The project will be available at the following URL: [https://go-travelo.github.io/layla-partner-app/](https://go-travelo.github.io/layla-partner-app/)
 
 ### `npm start`
 
