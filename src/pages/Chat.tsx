@@ -101,25 +101,27 @@ const Chat: React.FC = () => {
           <Message key={message.id} message={message}/>
         ))}
       </Box>
-      <Box sx={{ flex: '0 0 auto', padding: '0px 14px 3px 14px', bgcolor: 'background.paper', boxShadow: 1 }}>
-        <TextField
-          fullWidth
-          placeholder="Ask anything..."
-          value={messageText}
-          onChange={e => setMessageText(e.target.value)}
-          onKeyDown={handleKeyDown}
-          margin="normal"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={handleSendMessage} color="primary" disabled={!messageText}>
-                  <SendIcon/>
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
+      {connectionStatus === 'connected' && (
+        <Box sx={{ flex: '0 0 auto', padding: '0px 14px 3px 14px', bgcolor: 'background.paper', boxShadow: 1 }}>
+          <TextField
+            fullWidth
+            placeholder="Ask anything..."
+            value={messageText}
+            onChange={e => setMessageText(e.target.value)}
+            onKeyDown={handleKeyDown}
+            margin="normal"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleSendMessage} color="primary" disabled={!messageText}>
+                    <SendIcon/>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+      )}
     </Box>
   );
 };
