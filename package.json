@@ -1,7 +1,7 @@
 {
   "name": "layla-partner-app",
   "version": "0.1.0",
-  "homepage": "https://repo.justasklayla.com/",
+  "homepage": "https://go-travelo.github.io/layla-partner-app",
   "private": false,
   "dependencies": {
     "@emotion/react": "^11.11.4",
