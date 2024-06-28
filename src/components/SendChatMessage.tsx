@@ -3,6 +3,7 @@ import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectConnectionConversationId, selectConnectionToken, sendMessage } from '../features/conversationSlice';
+import ConversationMenu from './ConversationMenu';
 
 const SendChatMessage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +25,7 @@ const SendChatMessage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ flex: '0 0 auto', padding: '0px 14px 3px 14px', bgcolor: 'background.paper', boxShadow: 1 }}>
+    <Box sx={{ flex: '0 0 auto', padding: '0px 14px 3px 14px', bgcolor: 'background.paper', boxShadow: 1, borderRadius: 0.5 }}>
       <TextField
         fullWidth
         placeholder="Ask anything..."
@@ -38,6 +39,7 @@ const SendChatMessage: React.FC = () => {
               <IconButton onClick={handleSendMessage} color="primary" disabled={!messageText}>
                 <SendIcon/>
               </IconButton>
+              <ConversationMenu/>
             </InputAdornment>
           ),
         }}

@@ -93,3 +93,13 @@ export const disconnectSocket = (): AppThunk => (dispatch: AppDispatch) => {
 export const sendMessage = (message: SendTextMessageParams): AppThunk => async (dispatch: AppDispatch) => {
   await apiService.sendTextMessage(message);
 };
+
+export const createNewAndStartConversation = (name: string, skipGreeting: boolean): AppThunk =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const token = selectConnectionToken(getState());
+    const url = selectConnectionUrl(getState());
+    const { conversation } = await apiService.startConversation({ token, name, skipGreeting });
+    conversationService.disconnect(dispatch);
+    dispatch(setConnectionConversationId(conversation.id));
+    conversationService.connect(url, conversation.id, token, dispatch);
+  };
