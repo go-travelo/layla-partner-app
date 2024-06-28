@@ -12,7 +12,7 @@ const App: React.FC = () => {
     <Router>
       <Header/>
       <RedirectHandler/>
-      <Container sx={{ marginTop: '80px' }}>
+      <Container>
         <Routes>
           <Route path="/" element={<Documentation/>}/>
           <Route path="/chat" element={<Chat/>}/>

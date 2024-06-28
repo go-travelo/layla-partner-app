@@ -5,6 +5,8 @@ import { Conversation } from './conversationSliceModels';
 import conversationService from '../services/conversationService';
 import { AppDispatch, AppThunk, RootState } from '../store/store';
 import { getLocalStorageItem, setLocalStorageItem } from '../services/localStorageService';
+import apiService from '../services/apiService';
+import { SendTextMessageParams } from '../services/apiServiceModels';
 
 type ConnectionStatus = 'disconnected' | 'connecting' | 'connected';
 
@@ -80,12 +82,14 @@ export const selectConnectionConversationId = (state: RootState) => state.conver
 
 export default conversationSlice.reducer;
 
-// Thunk to connect to the Socket.IO server
 export const connectSocket = (url: string, conversationId: string, token: string): AppThunk => (dispatch: AppDispatch) => {
   conversationService.connect(url, conversationId, token, dispatch);
 };
 
-// Thunk to disconnect from the Socket.IO server
 export const disconnectSocket = (): AppThunk => (dispatch: AppDispatch) => {
   conversationService.disconnect(dispatch);
+};
+
+export const sendMessage = (message: SendTextMessageParams): AppThunk => async (dispatch: AppDispatch) => {
+  await apiService.sendTextMessage(message);
 };

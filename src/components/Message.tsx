@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { styled } from '@mui/system';
 import { ChatMessage } from '../features/conversationSliceModels';
+import MarkdownRenderer from './MarkdownRenderer';
 
 const StyledMessageContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isUserMessage',
@@ -24,7 +25,7 @@ const Message: React.FC<{ message: ChatMessage }> = ({ message }) => {
   return (
     <StyledMessageContainer isUserMessage={message.isUserMessage}>
       <StyledMessageBox isUserMessage={message.isUserMessage}>
-        <Typography variant="body1">{message.text}</Typography>
+        <MarkdownRenderer markdown={message.text || '{{cards not yet implemented}}'}/>
       </StyledMessageBox>
     </StyledMessageContainer>
   );

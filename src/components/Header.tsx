@@ -31,7 +31,7 @@ const Header: React.FC = () => {
             }}
           />
           <Typography variant="h6" noWrap sx={{ color: 'secondary.main' }}>
-            Layla Partner
+            Layla - Partner Portal
           </Typography>
         </Box>
       </Toolbar>
