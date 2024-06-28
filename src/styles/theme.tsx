@@ -6,6 +6,9 @@ const BACKGROUND_COLOR = '#eeeeee';
 const TEXT_COLOR = '#303030';
 
 const theme = createTheme({
+  shape: {
+    borderRadius: 16, // Adjust this value to make the components more rounded
+  },
   palette: {
     primary: {
       main: PRIMARY_COLOR,
@@ -24,8 +27,25 @@ const theme = createTheme({
     fontFamily: 'Inter, sans-serif',
   },
   components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16,
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16,
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
+        root: {
+          borderRadius: 16,
+        },
         containedPrimary: {
           color: SECONDARY_COLOR,
         },
