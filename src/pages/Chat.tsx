@@ -38,7 +38,7 @@ const Chat: React.FC = () => {
 
   return (
     <Box p={2}>
-      <Box mb={2}>
+      <Box mb={2} sx={{ display: connectionStatus === 'connected' ? 'none' : 'inherit' }}>
         <TextField
           fullWidth
           label="URL"

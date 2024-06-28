@@ -27,7 +27,6 @@ class ConversationService {
       console.log('Disconnected from the server');
       dispatch(setConnectionStatus('disconnected'));
       dispatch(clearConversation());
-      dispatch(clearConnectionError());
     });
 
     this.socket.on('conversation', data => {

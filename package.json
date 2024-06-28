@@ -1,7 +1,7 @@
 {
   "name": "layla-partner-app",
   "version": "0.1.0",
-  "homepage": "https://go-travelo.github.io/layla-partner-app",
+  "homepage": "https://partner.justasklayla.com",
   "private": false,
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -28,7 +28,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d build --cname partner.justasklayla.com",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
