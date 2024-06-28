@@ -8,13 +8,13 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.jpg",
-      "type": "image/png",
+      "src": "layla192.jpg",
+      "type": "image/jpg",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.jpg",
-      "type": "image/png",
+      "src": "layla512.jpg",
+      "type": "image/jpg",
       "sizes": "512x512"
     }
   ],
