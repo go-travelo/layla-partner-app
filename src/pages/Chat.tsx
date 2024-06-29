@@ -1,17 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { selectConnectionConversationId, selectConnectionStatus, selectConversation } from '../features/conversationSlice';
+import { useAppSelector } from '../store/hooks';
+import { selectConnectionStatus, selectConversation } from '../features/conversationSlice';
 import Message from '../components/Message';
 import TypingMessage from '../components/TypingMessage';
 import SendChatMessage from '../components/SendChatMessage';
 import ChatConnectionForm from '../components/ChatConnectionForm';
 
 const Chat: React.FC = () => {
-  const dispatch = useAppDispatch();
   const connectionStatus = useAppSelector(selectConnectionStatus);
   const conversation = useAppSelector(selectConversation);
-  const conversationId = useAppSelector(selectConnectionConversationId);
 
   const messages = conversation.chatMessages || [];
   const lastMessageText = messages[messages.length - 1]?.text;

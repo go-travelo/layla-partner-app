@@ -1,11 +1,14 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import SettingsForm from '../components/SettingsForm';
+import { Box } from '@mui/material';
 
 const Settings: React.FC = () => {
   return (
-    <Typography variant="h4">
-      Settings
-    </Typography>
+    <Box display="flex" flexDirection="column" height="100vh">
+      <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+        <SettingsForm/>
+      </Box>
+    </Box>
   );
 };
 
