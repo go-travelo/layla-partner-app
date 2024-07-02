@@ -7,6 +7,7 @@ import { AppDispatch, AppThunk, RootState } from '../store/store';
 import { getLocalStorageItem, setLocalStorageItem } from '../services/localStorageService';
 import apiService from '../services/apiService';
 import { SendTextMessageParams } from '../services/apiServiceModels';
+import { selectBaseApiUrl } from './settingsSlice';
 
 type ConnectionStatus = 'disconnected' | 'connecting' | 'connected';
 
@@ -14,7 +15,6 @@ interface ConversationState {
   connectionStatus: ConnectionStatus;
   conversation: Conversation;
   connectionError?: string;
-  connectionUrl: string;
   connectionToken: string;
   connectionConversationId: string;
 }
@@ -23,7 +23,6 @@ const initialState: ConversationState = {
   connectionStatus: 'disconnected',
   conversation: {},
   connectionError: undefined,
-  connectionUrl: getLocalStorageItem('connectionUrl', 'https://bd-api.dev.beautifuldestinations.app'),
   connectionToken: getLocalStorageItem('connectionToken', '<token>'),
   connectionConversationId: getLocalStorageItem('connectionConversationId', '<conversationId>'),
 };
@@ -47,10 +46,6 @@ const conversationSlice = createSlice({
     clearConnectionError(state) {
       state.connectionError = undefined;
     },
-    setConnectionUrl: (state, action) => {
-      state.connectionUrl = action.payload;
-      setLocalStorageItem('connectionUrl', state.connectionUrl);
-    },
     setConnectionToken: (state, action) => {
       state.connectionToken = action.payload;
       setLocalStorageItem('connectionToken', state.connectionToken);
@@ -68,7 +63,6 @@ export const {
   applyPatch,
   setConnectionError,
   clearConnectionError,
-  setConnectionUrl,
   setConnectionToken,
   setConnectionConversationId,
 } = conversationSlice.actions;
@@ -76,7 +70,6 @@ export const {
 export const selectConversation = (state: RootState) => state.conversation.conversation;
 export const selectConnectionStatus = (state: RootState) => state.conversation.connectionStatus;
 export const selectConnectionError = (state: RootState) => state.conversation.connectionError;
-export const selectConnectionUrl = (state: RootState) => state.conversation.connectionUrl;
 export const selectConnectionToken = (state: RootState) => state.conversation.connectionToken;
 export const selectConnectionConversationId = (state: RootState) => state.conversation.connectionConversationId;
 
@@ -97,7 +90,7 @@ export const sendMessage = (message: SendTextMessageParams): AppThunk => async (
 export const createNewAndStartConversation = (name: string, skipGreeting: boolean): AppThunk =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const token = selectConnectionToken(getState());
-    const url = selectConnectionUrl(getState());
+    const url = selectBaseApiUrl(getState());
     const { conversation } = await apiService.startConversation({ token, name, skipGreeting });
     conversationService.disconnect(dispatch);
     dispatch(setConnectionConversationId(conversation.id));

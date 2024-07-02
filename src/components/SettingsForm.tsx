@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { setConnectionUrl } from '../features/conversationSlice';
 import HiddenTextInput from './HiddenTextInput';
 import { selectBaseApiUrl, selectPartnerApiKey, setBaseApiUrl as setBaseApiUrlAction, setPartnerApiKey as setPartnerApiKeyAction } from '../features/settingsSlice';
 
@@ -15,7 +14,6 @@ const ChatConnectionForm: React.FC = () => {
   const [baseApiUrl, setBaseApiUrl] = useState(initialBaseApiUrl);
 
   const handleSave = () => {
-    dispatch(setConnectionUrl(baseApiUrl));
     dispatch(setPartnerApiKeyAction(partnerApiKey));
     dispatch(setBaseApiUrlAction(baseApiUrl));
   };

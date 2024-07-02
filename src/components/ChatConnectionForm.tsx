@@ -1,13 +1,14 @@
 import React from 'react';
 import { Alert, Box, Button, TextField } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { connectSocket, disconnectSocket, selectConnectionConversationId, selectConnectionError, selectConnectionStatus, selectConnectionToken, selectConnectionUrl, setConnectionConversationId, setConnectionToken, setConnectionUrl } from '../features/conversationSlice';
+import { connectSocket, disconnectSocket, selectConnectionConversationId, selectConnectionError, selectConnectionStatus, selectConnectionToken, setConnectionConversationId, setConnectionToken } from '../features/conversationSlice';
+import { selectBaseApiUrl } from '../features/settingsSlice';
 
 const ChatConnectionForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const connectionStatus = useAppSelector(selectConnectionStatus);
   const connectionError = useAppSelector(selectConnectionError);
-  const url = useAppSelector(selectConnectionUrl);
+  const url = useAppSelector(selectBaseApiUrl);
   const conversationId = useAppSelector(selectConnectionConversationId);
   const token = useAppSelector(selectConnectionToken);
 
@@ -35,13 +36,6 @@ const ChatConnectionForm: React.FC = () => {
   return (
     <Box p={2} width="100%" maxWidth="600px">
       <Box mb={2}>
-        <TextField
-          fullWidth
-          label="URL"
-          value={url}
-          onChange={e => dispatch(setConnectionUrl(e.target.value))}
-          sx={{ mb: 2 }}
-        />
         <TextField
           fullWidth
           label="Conversation ID"
