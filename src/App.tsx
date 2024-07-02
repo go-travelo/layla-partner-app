@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Container } from '@mui/material';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import Header from './components/Header';
 import Chat from './pages/Chat';
 import Users from './pages/Users';
@@ -14,7 +14,8 @@ const App: React.FC = () => {
       <RedirectHandler/>
       <Container>
         <Routes>
-          <Route path="/" element={<Documentation/>}/>
+          <Route path="/" element={<Navigate to="/documentation" replace/>}/>
+          <Route path="/documentation" element={<Documentation/>}/>
           <Route path="/chat" element={<Chat/>}/>
           <Route path="/users" element={<Users/>}/>
           <Route path="/settings" element={<Settings/>}/>
