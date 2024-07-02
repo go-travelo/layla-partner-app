@@ -25,9 +25,6 @@ const CodeBlock = styled('pre')(({ theme }) => ({
   padding: theme.spacing(2),
   borderRadius: theme.shape.borderRadius,
   overflowX: 'auto',
-  '& code': {
-    fontFamily: 'Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace',
-  },
 }));
 
 const InlineCode = styled('code')(({ theme }) => ({
@@ -55,9 +52,13 @@ const Documentation = () => {
         </Box>
         <Box mb={2}>
           <Typography variant="body1">
-            Our platform utilizes both REST API and WebSocket (via Socket.io) to power real-time chat functionality and expose various features.
+            Our platform utilizes both <Link href="https://en.wikipedia.org/wiki/REST" target="_blank" rel="noopener">REST API
+          </Link> and <Link href="https://en.wikipedia.org/wiki/WebSocket" target="_blank" rel="noopener">WebSocket
+          </Link> (via <Link href="https://socket.io/" target="_blank" rel="noopener">Socket.io
+          </Link>) to power real-time chat functionality and expose various features.
           </Typography>
         </Box>
+        <Divider sx={{ my: 2 }}/>
         <Typography variant="subtitle1" gutterBottom fontWeight="bold">
           Contact Information:
         </Typography>
@@ -88,9 +89,16 @@ const Documentation = () => {
       </SectionTitle>
       <StyledPaper elevation={3}>
         <Box mb={2}>
-          <Typography variant="body1">
-            The Layla Partner API grants access to Layla's core functionalities, including conversations, activities, hotels, and flights. It features a RESTful interface using JSON format, with security ensured through SSL and API access tokens.
-          </Typography>
+          <Box mb={2}>
+            <Typography variant="body1">
+              The Layla Partner API grants access to Layla's core functionalities, including conversations, activities, hotels, and flights. It features a RESTful interface using JSON format, with security ensured through SSL and API access tokens.
+            </Typography>
+          </Box>
+          <Box mb={2}>
+            <Typography variant="body1">
+              All communication with the API is performed over HTTPS. To access the API, you need the partner API key which should be kept <b>secret</b>. To obtain a token, please contact us.
+            </Typography>
+          </Box>
         </Box>
         <Divider sx={{ my: 2 }}/>
         <Box mb={2}>
@@ -98,15 +106,196 @@ const Documentation = () => {
             For comprehensive API details, refer to our:
           </Typography>
         </Box>
-        <Link
-          href="https://bd-api.dev.beautifuldestinations.app/partner/swagger-ui"
-          target="_blank"
-          rel="noopener"
-          variant="button"
-          sx={{ display: 'inline-block', mb: 4 }}
-        >
-          Swagger / OpenAPI Documentation
-        </Link>
+        <List dense disablePadding>
+          <ListItem>
+            <Link
+              href="https://bd-api.dev.beautifuldestinations.app/partner/swagger-ui"
+              target="_blank"
+              rel="noopener"
+            >
+              Swagger UI
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link
+              href="https://github.com/go-travelo/layla-partner-app/blob/master/src/services/apiService.tsx"
+              target="_blank"
+              rel="noopener"
+            >
+              Javascript REST API client
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link
+              href="https://github.com/go-travelo/layla-partner-app/blob/master/src/services/conversationService.ts"
+              target="_blank"
+              rel="noopener"
+            >
+              Javascript Socket.io client
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link
+              href="https://bd-api.dev.beautifuldestinations.app/partner/openapi.yaml"
+              target="_blank"
+              rel="noopener"
+            >
+              OpenAPI Specification (YAML)
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link
+              href="https://bd-api.dev.beautifuldestinations.app/partner/openapi.json"
+              target="_blank"
+              rel="noopener"
+            >
+              OpenAPI Specification (JSON)
+            </Link>
+          </ListItem>
+        </List>
+      </StyledPaper>
+
+      <SectionTitle variant="h5">
+        REST API Communication
+      </SectionTitle>
+      <StyledPaper elevation={3}>
+        <Box mb={2}>
+          <Typography variant="body1">
+            Layla employs REST API for all communication. The API is secured using SSL and requires an API access token for authentication. Here's a guide to using the Layla Partner API. In order to obtain the user auth token, a partner API key is needed.
+          </Typography>
+        </Box>
+
+        <Typography variant="subtitle1" gutterBottom fontWeight="bold">
+          Creating a user
+        </Typography>
+        <Box mb={2}>
+          <Typography variant="body1">
+            In order to authenticate as an user, the partners need to create a user within the Layla's system. Thus, create a user in Layla's system using the <Link
+            href="https://bd-api.dev.beautifuldestinations.app/partner/swagger-ui/#/user/createUser"
+            target="_blank"
+            rel="noopener"
+          >
+            create user endpoint
+          </Link>. This should be done from the backend side as this endpoint requires the partner API key which must be kept secret. All user properties are optional.
+          </Typography>
+        </Box>
+        <CodeBlock dangerouslySetInnerHTML={{
+          __html: `curl -X 'POST' \\
+  'https://bd-api.dev.beautifuldestinations.app/user' \\
+  -H 'accept: */*' \\
+  -H 'Authorization: Bearer &lt;partnerApiKey&gt;' \\
+  -H 'Content-Type: application/json' \\
+  -d '{
+    "email": "test@layla.com",
+    "firstName": "Layla",
+    "lastName": "Tester",
+    "photoUrl": "string"
+}'`,
+        }}>
+        </CodeBlock>
+        <Typography variant="body1">
+          The response will contain the user ID which should be stored securely, e.g.
+        </Typography>
+        <CodeBlock dangerouslySetInnerHTML={{ __html: `"userId":"&lt;userId&gt;"` }}/>
+
+        <Typography variant="subtitle1" gutterBottom fontWeight="bold">
+          Authenticating a user
+        </Typography>
+        <Box mb={2}>
+          <Typography variant="body1">
+            In order to authenticate a user, the partners need to create a user auth token using the <Link
+            href="https://bd-api.dev.beautifuldestinations.app/partner/swagger-ui/#/auth/createPartnerAuth"
+            target="_blank"
+            rel="noopener"
+          >
+            create user auth endpoint
+          </Link>. This should be done from the backend side as this endpoint requires the partner API key which must be kept secret.
+          </Typography>
+        </Box>
+        <CodeBlock dangerouslySetInnerHTML={{
+          __html: `curl -X 'POST' \\
+  'https://bd-api.dev.beautifuldestinations.app/auth/partner' \\
+  -H 'accept: application/json' \\
+  -H 'Authorization: Bearer &lt;partnerApiKey&gt;' \\
+  -H 'Content-Type: application/json' \\
+  -d '{
+  "userId": "&lt;userId&gt;"
+}'`,
+        }}>
+        </CodeBlock>
+        <Typography variant="body1">
+          The response will contain the temporary (one hour) user auth token that can be given to the user (frontend). Remember to refresh this token with the same above procedure. Output example:
+        </Typography>
+        <CodeBlock dangerouslySetInnerHTML={{
+          __html: `{
+  "token": "&lt;userAuthToken&gt;",
+  ...`,
+        }}/>
+
+        <Typography variant="subtitle1" gutterBottom fontWeight="bold">
+          Create a new conversation
+        </Typography>
+        <Box mb={2}>
+          <Typography variant="body1">
+            Given you have obtained a user auth token, generating a conversation can be achieved through the <Link
+            href="https://bd-api.dev.beautifuldestinations.app/partner/swagger-ui/#/chatbot/handleAdeoConversationStart"
+            target="_blank"
+            rel="noopener"
+          >
+            create conversation endpoint
+          </Link>.
+          </Typography>
+        </Box>
+        <CodeBlock dangerouslySetInnerHTML={{
+          __html: `curl -X 'POST' \\
+  'https://bd-api.dev.beautifuldestinations.app/chatbot/conversation' \\
+  -H 'accept: */*' \\
+  -H 'Authorization: Bearer &lt;userAuthToken&gt;' \\
+  -H 'Content-Type: application/json' \\
+  -d '{
+  "name": "",
+  "skipGreeting": false
+}'`,
+        }}>
+        </CodeBlock>
+        <Typography variant="body1">
+          The response will contain the the created <code>conversationId</code>. Output example:
+        </Typography>
+        <CodeBlock dangerouslySetInnerHTML={{
+          __html: `{
+  "conversation": {
+    "id": "&lt;conversationId&gt;",
+    ...
+  }
+}`,
+        }}/>
+
+        <Typography variant="subtitle1" gutterBottom fontWeight="bold">
+          Send a text message
+        </Typography>
+        <Box mb={2}>
+          <Typography variant="body1">
+            Given you have created a new conversation, you can now send messages to it using <Link
+            href="https://bd-api.dev.beautifuldestinations.app/partner/swagger-ui/#/chatbot/handleAdeoMessageText"
+            target="_blank"
+            rel="noopener"
+          >
+            send text message
+          </Link>.
+          </Typography>
+        </Box>
+        <CodeBlock dangerouslySetInnerHTML={{
+          __html: `curl -X 'POST' \\
+  'https://bd-api.dev.beautifuldestinations.app/chatbot/conversation/&ltconversationId&gt;/message/text' \\
+  -H 'accept: */*' \\
+  -H 'Authorization: Bearer &lt;userAuthToken&gt;' \\
+  -H 'Content-Type: application/json' \\
+  -d '{
+  "id": "&lt;messageIdOptional&gt;",
+  "text": "Hello Layla"
+}'`,
+        }}>
+        </CodeBlock>
       </StyledPaper>
 
       <SectionTitle variant="h5">
@@ -128,8 +317,7 @@ const Documentation = () => {
           </Typography>
         </Box>
         <CodeBlock>
-          <code>
-            {`URL: https://bd-api.dev.beautifuldestinations.app
+          {`URL: https://bd-api.dev.beautifuldestinations.app
 
 Options:
 {
@@ -139,8 +327,14 @@ Options:
   "transports": ["websocket"],
   "auth": { "token": "<userAuthToken>" }
 }`}
-          </code>
         </CodeBlock>
+        <Typography variant="body1">
+          Note that the <code>&lt;userAuthToken&gt;</code> can be obtained from <Link
+          href="https://bd-api.dev.beautifuldestinations.app/partner/swagger-ui/#/auth/createPartnerAuth"
+          target="_blank"
+          rel="noopener"
+        >this endpoint</Link>.
+        </Typography>
 
         <Typography variant="subtitle1" gutterBottom fontWeight="bold" sx={{ mt: 3 }}>
           Server-to-Client Events:
